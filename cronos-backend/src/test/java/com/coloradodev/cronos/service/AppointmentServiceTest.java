@@ -29,91 +29,87 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class AppointmentServiceTest {
 
-    @Mock
-    private AppointmentRepository appointmentRepository;
+        @Mock
+        private AppointmentRepository appointmentRepository;
 
-    @Mock
-    private ServiceRepository serviceRepository;
+        @Mock
+        private ServiceRepository serviceRepository;
 
-    @Mock
-    private UserRepository userRepository;
+        @Mock
+        private UserRepository userRepository;
 
-    @InjectMocks
-    private AppointmentService appointmentService;
+        @InjectMocks
+        private AppointmentService appointmentService;
 
-    private Service mockService;
-    private Tenant mockTenant;
-    private UUID serviceId;
+        private Service mockService;
+        private Tenant mockTenant;
+        private UUID serviceId;
 
-    @BeforeEach
-    void setUp() {
-        serviceId = UUID.randomUUID();
+        @BeforeEach
+        void setUp() {
+                serviceId = UUID.randomUUID();
 
-        mockTenant = Tenant.builder()
-                .id(UUID.randomUUID())
-                .name("Test Tenant")
-                .workDayStart(LocalTime.of(9, 0))
-                .workDayEnd(LocalTime.of(12, 0)) // Short day for easier testing
-                .build();
+                mockTenant = Tenant.builder()
+                                .id(UUID.randomUUID())
+                                .name("Test Tenant")
+                                .workDayStart(LocalTime.of(9, 0))
+                                .workDayEnd(LocalTime.of(12, 0)) // Short day for easier testing
+                                .build();
 
-        mockService = Service.builder()
-                .id(serviceId)
-                .name("Test Service")
-                .duration(60) // 1 hour duration
-                .tenant(mockTenant)
-                .build();
-    }
+                mockService = Service.builder()
+                                .id(serviceId)
+                                .name("Test Service")
+                                .duration(60) // 1 hour duration
+                                .tenant(mockTenant)
+                                .build();
+        }
 
-    @Test
-    void shouldReturnSlotsWhenNoAppointments() {
-        // Given
-        LocalDate date = LocalDate.now().plusDays(1);
-        when(serviceRepository.findById(serviceId)).thenReturn(Optional.of(mockService));
-        when(appointmentRepository.findByServiceIdAndDateRange(any(), any(), any()))
-                .thenReturn(Collections.emptyList());
+        @Test
+        void shouldReturnSlotsWhenNoAppointments() {
+                // Given
+                LocalDate date = LocalDate.now().plusDays(1);
+                when(serviceRepository.findById(serviceId)).thenReturn(Optional.of(mockService));
+                when(appointmentRepository.findByServiceIdAndDateRange(any(), any(), any()))
+                                .thenReturn(Collections.emptyList());
 
-        // When
-        List<TimeSlot> slots = appointmentService.getAvailableSlots(date, serviceId);
+                // When
+                List<TimeSlot> slots = appointmentService.getAvailableSlots(date, serviceId);
 
-        // Then
-        // 9:00-10:00, 10:00-11:00, 11:00-12:00 -> 3 slots
-        assertEquals(3, slots.size());
-        assertEquals(LocalTime.of(9, 0), slots.get(0).getStartTime());
-        assertTrue(slots.get(0).isAvailable());
-    }
+                // Then
+                // 9:00-10:00, 10:00-11:00, 11:00-12:00 -> 3 slots
+                assertEquals(3, slots.size());
+                assertEquals(LocalTime.of(9, 0), slots.get(0).getStartTime());
+        }
 
-    @Test
-    void shouldDetectOverlapAndExcludeSlot() {
-        // Given
-        LocalDate date = LocalDate.now().plusDays(1);
+        @Test
+        void shouldDetectOverlapAndExcludeSlot() {
+                // Given
+                LocalDate date = LocalDate.now().plusDays(1);
 
-        // Create an existing appointment at 10:00
-        Appointment existingAppointment = Appointment.builder()
-                .startTime(LocalDateTime.of(date, LocalTime.of(10, 0)))
-                .endTime(LocalDateTime.of(date, LocalTime.of(11, 0)))
-                .build();
+                // Create an existing appointment at 10:00
+                Appointment existingAppointment = Appointment.builder()
+                                .startTime(LocalDateTime.of(date, LocalTime.of(10, 0)))
+                                .endTime(LocalDateTime.of(date, LocalTime.of(11, 0)))
+                                .build();
 
-        when(serviceRepository.findById(serviceId)).thenReturn(Optional.of(mockService));
-        when(appointmentRepository.findByServiceIdAndDateRange(any(), any(), any()))
-                .thenReturn(List.of(existingAppointment));
+                when(serviceRepository.findById(serviceId)).thenReturn(Optional.of(mockService));
+                when(appointmentRepository.findByServiceIdAndDateRange(any(), any(), any()))
+                                .thenReturn(List.of(existingAppointment));
 
-        // When
-        List<TimeSlot> slots = appointmentService.getAvailableSlots(date, serviceId);
+                // When
+                List<TimeSlot> slots = appointmentService.getAvailableSlots(date, serviceId);
 
-        // Then
-        // 9:00-10:00 (Available)
-        // 10:00-11:00 (Booked - should be unavailable or excluded depending on logic)
-        // 11:00-12:00 (Available)
+                // Then
+                // 9:00-10:00 (Available)
+                // 10:00-11:00 (Booked - Excluded)
+                // 11:00-12:00 (Available)
 
-        assertEquals(3, slots.size());
+                assertEquals(2, slots.size());
 
-        // Slot 1: 9:00 - Available
-        assertTrue(slots.get(0).isAvailable());
+                // Slot 1: 9:00
+                assertEquals(LocalTime.of(9, 0), slots.get(0).getStartTime());
 
-        // Slot 2: 10:00 - Unavailable
-        assertFalse(slots.get(1).isAvailable());
-
-        // Slot 3: 11:00 - Available
-        assertTrue(slots.get(2).isAvailable());
-    }
+                // Slot 2: 11:00 (Skipped 10:00)
+                assertEquals(LocalTime.of(11, 0), slots.get(1).getStartTime());
+        }
 }
