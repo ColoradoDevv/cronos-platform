@@ -1,0 +1,18 @@
+# Java
+target/
+*.class
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+.mvn
+
+# Node
+node_modules/
+dist/
+build/
+.env
+.env.local
+.DS_Store
+coverage/
