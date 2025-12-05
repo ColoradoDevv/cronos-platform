@@ -1,21 +1,49 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
+
+const PublicLayout = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        return <Navigate to="/dashboard" replace />;
+    }
+    return <Outlet />;
+};
+
+const PrivateLayout = () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        return <Navigate to="/login" replace />;
+    }
+    return <Outlet />;
+};
 
 const router = createBrowserRouter([
     {
-        path: '/',
-        element: <div>Home (Public)</div>,
+        element: <PublicLayout />,
+        children: [
+            {
+                path: '/',
+                element: <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+                    <h1 className="text-4xl font-bold text-primary">Cronos Platform</h1>
+                </div>,
+            },
+            {
+                path: '/login',
+                element: <div>Login Page</div>,
+            },
+            {
+                path: '/register',
+                element: <div>Register Page</div>,
+            },
+        ],
     },
     {
-        path: '/login',
-        element: <div>Login Page</div>,
-    },
-    {
-        path: '/register',
-        element: <div>Register Page</div>,
-    },
-    {
-        path: '/dashboard',
-        element: <div>Dashboard (Private)</div>,
+        element: <PrivateLayout />,
+        children: [
+            {
+                path: '/dashboard',
+                element: <div>Dashboard (Private)</div>,
+            },
+        ],
     },
 ]);
 
