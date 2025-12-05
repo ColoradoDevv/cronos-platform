@@ -32,8 +32,18 @@ public class AppointmentService {
                 .orElseThrow(() -> new IllegalArgumentException("Service not found"));
 
         int durationMinutes = service.getDuration();
-        LocalDateTime startOfDay = LocalDateTime.of(date, START_WORK_TIME);
-        LocalDateTime endOfDay = LocalDateTime.of(date, END_WORK_TIME);
+        // Use Tenant's working hours
+        LocalTime workDayStart = service.getTenant().getWorkDayStart();
+        LocalTime workDayEnd = service.getTenant().getWorkDayEnd();
+
+        // Fallback if null
+        if (workDayStart == null)
+            workDayStart = LocalTime.of(9, 0);
+        if (workDayEnd == null)
+            workDayEnd = LocalTime.of(17, 0);
+
+        LocalDateTime startOfDay = LocalDateTime.of(date, workDayStart);
+        LocalDateTime endOfDay = LocalDateTime.of(date, workDayEnd);
 
         // Fetch existing appointments for the day
         List<Appointment> existingAppointments = appointmentRepository.findByServiceIdAndDateRange(
