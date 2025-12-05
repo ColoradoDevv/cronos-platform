@@ -27,10 +27,6 @@ public class AppointmentService {
     private final ServiceRepository serviceRepository;
     private final UserRepository userRepository;
 
-    // Hardcoded working hours for now
-    private static final LocalTime START_WORK_TIME = LocalTime.of(9, 0);
-    private static final LocalTime END_WORK_TIME = LocalTime.of(17, 0);
-
     public List<TimeSlot> getAvailableSlots(LocalDate date, UUID serviceId) {
         Service service = serviceRepository.findById(serviceId)
                 .orElseThrow(() -> new IllegalArgumentException("Service not found"));

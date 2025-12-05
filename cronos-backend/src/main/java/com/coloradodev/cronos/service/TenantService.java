@@ -26,6 +26,9 @@ public class TenantService {
                 .slug(request.getSlug())
                 .primaryColor(request.getPrimaryColor())
                 .logoUrl(request.getLogoUrl())
+                .workDayStart(
+                        request.getWorkDayStart() != null ? request.getWorkDayStart() : java.time.LocalTime.of(9, 0))
+                .workDayEnd(request.getWorkDayEnd() != null ? request.getWorkDayEnd() : java.time.LocalTime.of(17, 0))
                 .status("ACTIVE")
                 .build();
 

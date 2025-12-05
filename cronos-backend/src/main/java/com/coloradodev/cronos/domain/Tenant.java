@@ -28,4 +28,10 @@ public class Tenant extends BaseEntity {
     // White Label fields
     private String primaryColor;
     private String logoUrl;
+
+    @Column(name = "work_day_start")
+    private java.time.LocalTime workDayStart;
+
+    @Column(name = "work_day_end")
+    private java.time.LocalTime workDayEnd;
 }

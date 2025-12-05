@@ -15,6 +15,8 @@ public class TenantOnboardingRequest {
     private String slug;
     private String primaryColor;
     private String logoUrl;
+    private java.time.LocalTime workDayStart;
+    private java.time.LocalTime workDayEnd;
 
     // Admin User details
     private String adminEmail;
