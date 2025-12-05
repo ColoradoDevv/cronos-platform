@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
+import ClientLayout from '../layouts/ClientLayout';
 
 const PublicLayout = () => {
     const token = localStorage.getItem('token');
@@ -35,6 +36,19 @@ const router = createBrowserRouter([
             {
                 path: '/register',
                 element: <Register />,
+            },
+        ],
+    },
+    {
+        path: '/book/:slug',
+        element: <ClientLayout />,
+        children: [
+            {
+                index: true,
+                element: <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+                    <h2 className="text-3xl font-extrabold text-gray-900">Book an Appointment</h2>
+                    <p className="mt-4 text-lg text-gray-500">Select a service to get started.</p>
+                </div>,
             },
         ],
     },
