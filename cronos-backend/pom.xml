@@ -8,7 +8,7 @@
 		<version>3.2.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.cronos</groupId>
+	<groupId>com.coloradodev</groupId>
 	<artifactId>cronos-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cronos-backend</name>
