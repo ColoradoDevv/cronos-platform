@@ -10,6 +10,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import jakarta.persistence.EntityListeners;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
@@ -17,7 +19,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class User extends BaseEntity {
+@EntityListeners(TenantEntityListener.class)
+public class User extends BaseEntity implements TenantAware {
 
     private String email;
     private String password;

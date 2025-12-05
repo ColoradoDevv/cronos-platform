@@ -12,6 +12,8 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 
+import jakarta.persistence.EntityListeners;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
@@ -19,7 +21,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Entity
 @Table(name = "services")
-public class Service extends BaseEntity {
+@EntityListeners(TenantEntityListener.class)
+public class Service extends BaseEntity implements TenantAware {
 
     private String name;
     private String description;

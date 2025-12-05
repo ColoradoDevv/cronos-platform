@@ -12,6 +12,8 @@ import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.EntityListeners;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
@@ -19,7 +21,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "appointments")
-public class Appointment extends BaseEntity {
+@EntityListeners(TenantEntityListener.class)
+public class Appointment extends BaseEntity implements TenantAware {
 
     private LocalDateTime startTime;
     private LocalDateTime endTime;

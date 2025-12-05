@@ -1,5 +1,6 @@
 package com.coloradodev.cronos.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,13 @@ import lombok.experimental.SuperBuilder;
 public class Tenant extends BaseEntity {
 
     private String name;
-    private String schema;
+
+    @Column(unique = true)
+    private String slug;
+
     private String status;
+
+    // White Label fields
+    private String primaryColor;
+    private String logoUrl;
 }
