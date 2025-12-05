@@ -28,7 +28,8 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public ResponseEntity<AppointmentResponseDTO> createAppointment(@RequestBody AppointmentRequest request) {
+    public ResponseEntity<AppointmentResponseDTO> createAppointment(
+            @jakarta.validation.Valid @RequestBody AppointmentRequest request) {
         var appointment = appointmentService.createAppointment(request);
         var response = AppointmentResponseDTO.builder()
                 .id(appointment.getId())

@@ -17,7 +17,7 @@ public class TenantController {
     private final TenantService tenantService;
 
     @PostMapping
-    public ResponseEntity<?> createTenant(@RequestBody TenantOnboardingRequest request) {
+    public ResponseEntity<?> createTenant(@jakarta.validation.Valid @RequestBody TenantOnboardingRequest request) {
         return ResponseEntity.ok(tenantService.createTenant(request));
     }
 }

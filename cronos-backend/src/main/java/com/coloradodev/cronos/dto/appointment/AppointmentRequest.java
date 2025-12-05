@@ -14,6 +14,10 @@ import java.util.UUID;
 @NoArgsConstructor
 public class AppointmentRequest {
 
+    @jakarta.validation.constraints.NotNull(message = "Service ID is required")
     private UUID serviceId;
+
+    @jakarta.validation.constraints.NotNull(message = "Start time is required")
+    @jakarta.validation.constraints.Future(message = "Appointment must be in the future")
     private LocalDateTime startTime;
 }
