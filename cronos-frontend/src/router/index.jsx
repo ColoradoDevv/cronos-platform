@@ -1,4 +1,6 @@
 import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
+import Login from '../pages/Login';
+import Register from '../pages/Register';
 
 const PublicLayout = () => {
     const token = localStorage.getItem('token');
@@ -28,11 +30,11 @@ const router = createBrowserRouter([
             },
             {
                 path: '/login',
-                element: <div>Login Page</div>,
+                element: <Login />,
             },
             {
                 path: '/register',
-                element: <div>Register Page</div>,
+                element: <Register />,
             },
         ],
     },
