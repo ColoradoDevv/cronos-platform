@@ -1,6 +1,7 @@
 package com.coloradodev.cronos.controller;
 
 import com.coloradodev.cronos.dto.appointment.AppointmentRequest;
+import com.coloradodev.cronos.dto.appointment.AppointmentResponseDTO;
 import com.coloradodev.cronos.dto.appointment.TimeSlot;
 import com.coloradodev.cronos.service.AppointmentService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,18 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createAppointment(@RequestBody AppointmentRequest request) {
-        return ResponseEntity.ok(appointmentService.createAppointment(request));
+    public ResponseEntity<AppointmentResponseDTO> createAppointment(@RequestBody AppointmentRequest request) {
+        var appointment = appointmentService.createAppointment(request);
+        var response = AppointmentResponseDTO.builder()
+                .id(appointment.getId())
+                .startTime(appointment.getStartTime())
+                .endTime(appointment.getEndTime())
+                .status(appointment.getStatus())
+                .serviceId(appointment.getService().getId())
+                .serviceName(appointment.getService().getName())
+                .userId(appointment.getUser().getId())
+                .userName(appointment.getUser().getFirstName() + " " + appointment.getUser().getLastName())
+                .build();
+        return ResponseEntity.ok(response);
     }
 }
