@@ -12,6 +12,13 @@ const authService = {
 
     register: async (userData) => {
         const response = await api.post('/api/auth/register', userData);
+        // Auto-login after registration by saving the token
+        if (response.data.token) {
+            localStorage.setItem('token', response.data.token);
+            if (response.data.tenantId) {
+                localStorage.setItem('tenantId', response.data.tenantId);
+            }
+        }
         return response.data;
     },
 

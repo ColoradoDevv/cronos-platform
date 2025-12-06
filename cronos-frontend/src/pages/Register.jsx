@@ -43,7 +43,8 @@ const Register = () => {
                 email: formData.email,
                 password: formData.password
             });
-            navigate('/login');
+            // User is now auto-logged in, redirect to dashboard
+            navigate('/dashboard');
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to register. Please try again.');
         } finally {
