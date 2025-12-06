@@ -1,7 +1,9 @@
 package com.coloradodev.cronos.domain;
 
-public interface TenantAware {
-    void setTenant(Tenant tenant);
+import java.util.UUID;
 
-    Tenant getTenant();
+public interface TenantAware {
+    UUID getTenantId();
+
+    void setTenantId(UUID tenantId);
 }

@@ -1,6 +1,5 @@
 package com.coloradodev.cronos.domain;
 
-import com.coloradodev.cronos.core.tenant.TenantAware;
 import com.coloradodev.cronos.domain.embedded.ClientPreferences;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
