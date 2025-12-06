@@ -1,9 +1,6 @@
 package com.coloradodev.cronos.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,8 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
-
-import jakarta.persistence.EntityListeners;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -29,7 +27,20 @@ public class Service extends BaseEntity implements TenantAware {
     private Integer duration; // in minutes
     private BigDecimal price;
 
-    @ManyToOne
+    @Column(name = "category_id")
+    private UUID categoryId;
+
+    @Column(name = "is_active")
+    private Boolean isActive = true;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tenant_id")
     private Tenant tenant;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", insertable = false, updatable = false)
+    private ServiceCategory category;
+
+    @ManyToMany(mappedBy = "services")
+    private Set<Staff> staff = new HashSet<>();
 }

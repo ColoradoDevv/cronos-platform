@@ -1,6 +1,7 @@
 package com.coloradodev.cronos.domain;
 
 import com.coloradodev.cronos.core.tenant.TenantAware;
+import com.coloradodev.cronos.domain.embedded.ClientPreferences;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +11,6 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.UUID;
 
 @Entity
@@ -50,7 +50,7 @@ public class Client implements TenantAware {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "preferences", columnDefinition = "jsonb")
-    private Map<String, Object> preferences;
+    private ClientPreferences preferences;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
