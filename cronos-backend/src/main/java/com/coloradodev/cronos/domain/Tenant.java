@@ -1,8 +1,6 @@
 package com.coloradodev.cronos.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,4 +32,8 @@ public class Tenant extends BaseEntity {
 
     @Column(name = "work_day_end")
     private java.time.LocalTime workDayEnd;
+
+    // Subscription relationship
+    @OneToOne(mappedBy = "tenant", fetch = FetchType.LAZY)
+    private Subscription subscription;
 }
