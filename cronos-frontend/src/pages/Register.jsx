@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import authService from '../api/authService';
-import { UserPlus, CheckCircle } from 'lucide-react';
+import PasswordStrengthIndicator from '../components/PasswordStrengthIndicator';
+import { UserPlus, CheckCircle, Eye, EyeOff } from 'lucide-react';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -13,6 +14,8 @@ const Register = () => {
     });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -144,37 +147,60 @@ const Register = () => {
                                     <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                                         Password
                                     </label>
-                                    <div className="mt-1">
+                                    <div className="mt-1 relative">
                                         <input
                                             id="password"
                                             name="password"
-                                            type="password"
+                                            type={showPassword ? "text" : "password"}
                                             autoComplete="new-password"
                                             required
                                             value={formData.password}
                                             onChange={handleChange}
-                                            className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out sm:text-sm"
+                                            className="appearance-none block w-full px-3 py-3 pr-10 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out sm:text-sm"
                                             placeholder="••••••••"
                                         />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                                        >
+                                            {showPassword ? (
+                                                <EyeOff className="h-5 w-5" />
+                                            ) : (
+                                                <Eye className="h-5 w-5" />
+                                            )}
+                                        </button>
                                     </div>
+                                    <PasswordStrengthIndicator password={formData.password} />
                                 </div>
 
                                 <div>
                                     <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
                                         Confirm Password
                                     </label>
-                                    <div className="mt-1">
+                                    <div className="mt-1 relative">
                                         <input
                                             id="confirmPassword"
                                             name="confirmPassword"
-                                            type="password"
+                                            type={showConfirmPassword ? "text" : "password"}
                                             autoComplete="new-password"
                                             required
                                             value={formData.confirmPassword}
                                             onChange={handleChange}
-                                            className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out sm:text-sm"
+                                            className="appearance-none block w-full px-3 py-3 pr-10 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out sm:text-sm"
                                             placeholder="••••••••"
                                         />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                                        >
+                                            {showConfirmPassword ? (
+                                                <EyeOff className="h-5 w-5" />
+                                            ) : (
+                                                <Eye className="h-5 w-5" />
+                                            )}
+                                        </button>
                                     </div>
                                 </div>
 
