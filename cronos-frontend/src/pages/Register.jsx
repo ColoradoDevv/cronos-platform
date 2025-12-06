@@ -5,7 +5,8 @@ import { UserPlus, CheckCircle } from 'lucide-react';
 
 const Register = () => {
     const [formData, setFormData] = useState({
-        name: '',
+        firstName: '',
+        lastName: '',
         email: '',
         password: '',
         confirmPassword: ''
@@ -34,7 +35,8 @@ const Register = () => {
 
         try {
             await authService.register({
-                name: formData.name,
+                firstName: formData.firstName,
+                lastName: formData.lastName,
                 email: formData.email,
                 password: formData.password
             });
@@ -82,20 +84,39 @@ const Register = () => {
                                 )}
 
                                 <div>
-                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                                        Full Name
+                                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+                                        First Name
                                     </label>
                                     <div className="mt-1">
                                         <input
-                                            id="name"
-                                            name="name"
+                                            id="firstName"
+                                            name="firstName"
                                             type="text"
-                                            autoComplete="name"
+                                            autoComplete="given-name"
                                             required
-                                            value={formData.name}
+                                            value={formData.firstName}
                                             onChange={handleChange}
                                             className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out sm:text-sm"
-                                            placeholder="John Doe"
+                                            placeholder="John"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
+                                        Last Name
+                                    </label>
+                                    <div className="mt-1">
+                                        <input
+                                            id="lastName"
+                                            name="lastName"
+                                            type="text"
+                                            autoComplete="family-name"
+                                            required
+                                            value={formData.lastName}
+                                            onChange={handleChange}
+                                            className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out sm:text-sm"
+                                            placeholder="Doe"
                                         />
                                     </div>
                                 </div>
