@@ -2,11 +2,15 @@ import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Home from '../pages/Home';
+import Dashboard from '../pages/Dashboard';
 import ClientLayout from '../layouts/ClientLayout';
 
 const PublicLayout = () => {
     const token = localStorage.getItem('token');
-    if (token) {
+    const currentPath = window.location.pathname;
+
+    // Only redirect to dashboard if user is on login/register pages
+    if (token && (currentPath === '/login' || currentPath === '/register')) {
         return <Navigate to="/dashboard" replace />;
     }
     return <Outlet />;
@@ -56,7 +60,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/dashboard',
-                element: <div>Dashboard (Private)</div>,
+                element: <Dashboard />,
             },
         ],
     },
