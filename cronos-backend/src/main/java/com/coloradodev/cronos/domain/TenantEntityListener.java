@@ -15,11 +15,7 @@ public class TenantEntityListener {
             String tenantId = TenantContext.getCurrentTenant();
             if (tenantId != null) {
                 log.debug("Setting tenant {} for entity {}", tenantId, entity.getClass().getSimpleName());
-                // Create a proxy Tenant with the ID
-                Tenant tenant = Tenant.builder()
-                        .id(UUID.fromString(tenantId))
-                        .build();
-                tenantAware.setTenant(tenant);
+                tenantAware.setTenantId(UUID.fromString(tenantId));
             } else {
                 log.warn("No tenant found in context for entity {}", entity.getClass().getSimpleName());
                 // Depending on requirements, we might want to throw an exception here
