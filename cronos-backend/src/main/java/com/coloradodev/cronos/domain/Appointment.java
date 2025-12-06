@@ -1,9 +1,6 @@
 package com.coloradodev.cronos.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,8 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
-
-import jakarta.persistence.EntityListeners;
+import java.util.UUID;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -28,15 +24,42 @@ public class Appointment extends BaseEntity implements TenantAware {
     private LocalDateTime endTime;
     private String status;
 
-    @ManyToOne
+    @Column(name = "tenant_id")
+    private UUID tenantId;
+
+    @Column(name = "staff_id")
+    private UUID staffId;
+
+    @Column(name = "client_id")
+    private UUID clientId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_id")
     private Service service;
 
-    @ManyToOne
-    @JoinColumn(name = "tenant_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tenant_id", insertable = false, updatable = false)
     private Tenant tenant;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "staff_id", insertable = false, updatable = false)
+    private Staff staff;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id", insertable = false, updatable = false)
+    private Client client;
+
+    @Override
+    public UUID getTenantId() {
+        return tenantId;
+    }
+
+    @Override
+    public void setTenantId(UUID tenantId) {
+        this.tenantId = tenantId;
+    }
 }
