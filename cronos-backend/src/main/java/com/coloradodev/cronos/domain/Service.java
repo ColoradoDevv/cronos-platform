@@ -2,6 +2,7 @@ package com.coloradodev.cronos.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,7 @@ public class Service extends BaseEntity implements TenantAware {
     private UUID categoryId;
 
     @Column(name = "is_active")
+    @Builder.Default
     private Boolean isActive = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -45,6 +47,7 @@ public class Service extends BaseEntity implements TenantAware {
     private ServiceCategory category;
 
     @ManyToMany(mappedBy = "services")
+    @Builder.Default
     private Set<Staff> staff = new HashSet<>();
 
     @Override

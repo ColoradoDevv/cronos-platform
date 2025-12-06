@@ -6,6 +6,7 @@ import com.coloradodev.cronos.dto.tenant.TenantOnboardingRequest;
 import com.coloradodev.cronos.repository.TenantRepository;
 import com.coloradodev.cronos.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +35,7 @@ public class TenantService {
                                 .status("ACTIVE")
                                 .build();
 
-                tenant = tenantRepository.save(tenant);
+                Tenant savedTenant = tenantRepository.save(tenant);
 
                 // 2. Create Admin User
                 User adminUser = User.builder()
@@ -43,12 +44,12 @@ public class TenantService {
                                 .email(request.getAdminEmail())
                                 .password(passwordEncoder.encode(request.getAdminPassword()))
                                 .role("ADMIN")
-                                .tenant(tenant)
+                                .tenant(savedTenant)
                                 .build();
 
                 userRepository.save(adminUser);
 
-                return tenant;
+                return savedTenant;
         }
 
         @Transactional(readOnly = true)
