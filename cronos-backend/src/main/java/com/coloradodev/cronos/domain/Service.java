@@ -27,6 +27,9 @@ public class Service extends BaseEntity implements TenantAware {
     private Integer duration; // in minutes
     private BigDecimal price;
 
+    @Column(name = "tenant_id")
+    private UUID tenantId;
+
     @Column(name = "category_id")
     private UUID categoryId;
 
@@ -34,7 +37,7 @@ public class Service extends BaseEntity implements TenantAware {
     private Boolean isActive = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tenant_id")
+    @JoinColumn(name = "tenant_id", insertable = false, updatable = false)
     private Tenant tenant;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -43,4 +46,14 @@ public class Service extends BaseEntity implements TenantAware {
 
     @ManyToMany(mappedBy = "services")
     private Set<Staff> staff = new HashSet<>();
+
+    @Override
+    public UUID getTenantId() {
+        return tenantId;
+    }
+
+    @Override
+    public void setTenantId(UUID tenantId) {
+        this.tenantId = tenantId;
+    }
 }

@@ -24,6 +24,9 @@ public class Appointment extends BaseEntity implements TenantAware {
     private LocalDateTime endTime;
     private String status;
 
+    @Column(name = "tenant_id")
+    private UUID tenantId;
+
     @Column(name = "staff_id")
     private UUID staffId;
 
@@ -39,7 +42,7 @@ public class Appointment extends BaseEntity implements TenantAware {
     private Service service;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tenant_id")
+    @JoinColumn(name = "tenant_id", insertable = false, updatable = false)
     private Tenant tenant;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -49,4 +52,14 @@ public class Appointment extends BaseEntity implements TenantAware {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", insertable = false, updatable = false)
     private Client client;
+
+    @Override
+    public UUID getTenantId() {
+        return tenantId;
+    }
+
+    @Override
+    public void setTenantId(UUID tenantId) {
+        this.tenantId = tenantId;
+    }
 }
