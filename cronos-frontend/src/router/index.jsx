@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
+import Home from '../pages/Home';
 import ClientLayout from '../layouts/ClientLayout';
 
 const PublicLayout = () => {
@@ -25,9 +26,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element: <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-                    <h1 className="text-4xl font-bold text-primary">Cronos Platform</h1>
-                </div>,
+                element: <Home />,
             },
             {
                 path: '/login',
