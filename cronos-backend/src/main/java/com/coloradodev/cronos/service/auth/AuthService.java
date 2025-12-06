@@ -6,6 +6,7 @@ import com.coloradodev.cronos.domain.User;
 import com.coloradodev.cronos.dto.auth.AuthRequest;
 import com.coloradodev.cronos.dto.auth.AuthResponse;
 import com.coloradodev.cronos.dto.auth.RegisterRequest;
+import com.coloradodev.cronos.exception.DuplicateEmailException;
 import com.coloradodev.cronos.repository.TenantRepository;
 import com.coloradodev.cronos.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,11 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse register(RegisterRequest request) {
+        // Check if email already exists
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new DuplicateEmailException(request.getEmail());
+        }
+
         Tenant tenant = null;
         if (request.getTenantId() != null) {
             tenant = tenantRepository.findById(UUID.fromString(request.getTenantId()))
