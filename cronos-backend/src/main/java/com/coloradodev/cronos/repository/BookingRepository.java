@@ -15,59 +15,66 @@ import java.util.UUID;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, UUID> {
 
-    List<Booking> findByTenantId(UUID tenantId);
+        List<Booking> findByTenantId(UUID tenantId);
 
-    Optional<Booking> findByTenantIdAndId(UUID tenantId, UUID id);
+        Optional<Booking> findByTenantIdAndId(UUID tenantId, UUID id);
 
-    List<Booking> findByTenantIdAndStatus(UUID tenantId, BookingStatus status);
+        List<Booking> findByTenantIdAndStatus(UUID tenantId, BookingStatus status);
 
-    List<Booking> findByTenantIdAndClientId(UUID tenantId, UUID clientId);
+        List<Booking> findByTenantIdAndClientId(UUID tenantId, UUID clientId);
 
-    List<Booking> findByTenantIdAndServiceId(UUID tenantId, UUID serviceId);
+        List<Booking> findByTenantIdAndServiceId(UUID tenantId, UUID serviceId);
 
-    List<Booking> findByTenantIdAndStaffId(UUID tenantId, UUID staffId);
+        List<Booking> findByTenantIdAndStaffId(UUID tenantId, UUID staffId);
 
-    @Query("SELECT b FROM Booking b WHERE b.tenantId = :tenantId " +
-            "AND b.startTime >= :startDate AND b.endTime <= :endDate " +
-            "ORDER BY b.startTime ASC")
-    List<Booking> findByTenantIdAndDateRange(
-            @Param("tenantId") UUID tenantId,
-            @Param("startDate") LocalDateTime startDate,
-            @Param("endDate") LocalDateTime endDate);
+        @Query("SELECT b FROM Booking b WHERE b.tenantId = :tenantId " +
+                        "AND b.startTime >= :startDate AND b.endTime <= :endDate " +
+                        "ORDER BY b.startTime ASC")
+        List<Booking> findByTenantIdAndDateRange(
+                        @Param("tenantId") UUID tenantId,
+                        @Param("startDate") LocalDateTime startDate,
+                        @Param("endDate") LocalDateTime endDate);
 
-    @Query("SELECT b FROM Booking b WHERE b.tenantId = :tenantId " +
-            "AND b.staffId = :staffId " +
-            "AND b.startTime >= :startDate AND b.endTime <= :endDate " +
-            "AND b.status IN ('PENDING', 'CONFIRMED')")
-    List<Booking> findActiveBookingsForStaffInRange(
-            @Param("tenantId") UUID tenantId,
-            @Param("staffId") UUID staffId,
-            @Param("startDate") LocalDateTime startDate,
-            @Param("endDate") LocalDateTime endDate);
+        @Query("SELECT b FROM Booking b WHERE b.tenantId = :tenantId " +
+                        "AND b.staffId = :staffId " +
+                        "AND b.startTime >= :startDate AND b.endTime <= :endDate " +
+                        "AND b.status IN ('PENDING', 'CONFIRMED')")
+        List<Booking> findActiveBookingsForStaffInRange(
+                        @Param("tenantId") UUID tenantId,
+                        @Param("staffId") UUID staffId,
+                        @Param("startDate") LocalDateTime startDate,
+                        @Param("endDate") LocalDateTime endDate);
 
-    List<Booking> findByClientIdOrderByCreatedAtDesc(UUID clientId);
+        List<Booking> findByClientIdOrderByCreatedAtDesc(UUID clientId);
 
-    List<Booking> findByTenantIdAndClientIdOrderByCreatedAtDesc(UUID tenantId, UUID clientId);
+        List<Booking> findByTenantIdAndClientIdOrderByCreatedAtDesc(UUID tenantId, UUID clientId);
 
-    @Query("SELECT b FROM Booking b WHERE b.tenantId = :tenantId " +
-            "AND b.staffId = :staffId " +
-            "AND b.status IN ('PENDING', 'CONFIRMED') " +
-            "AND ((b.startTime < :endTime AND b.endTime > :startTime))")
-    List<Booking> findOverlappingBookings(
-            @Param("tenantId") UUID tenantId,
-            @Param("staffId") UUID staffId,
-            @Param("startTime") LocalDateTime startTime,
-            @Param("endTime") LocalDateTime endTime);
+        @Query("SELECT b FROM Booking b WHERE b.tenantId = :tenantId " +
+                        "AND b.staffId = :staffId " +
+                        "AND b.status IN ('PENDING', 'CONFIRMED') " +
+                        "AND ((b.startTime < :endTime AND b.endTime > :startTime))")
+        List<Booking> findOverlappingBookings(
+                        @Param("tenantId") UUID tenantId,
+                        @Param("staffId") UUID staffId,
+                        @Param("startTime") LocalDateTime startTime,
+                        @Param("endTime") LocalDateTime endTime);
 
-    @Query("SELECT b FROM Booking b WHERE b.tenantId = :tenantId " +
-            "AND b.staffId = :staffId " +
-            "AND b.id <> :excludeBookingId " +
-            "AND b.status IN ('PENDING', 'CONFIRMED') " +
-            "AND ((b.startTime < :endTime AND b.endTime > :startTime))")
-    List<Booking> findOverlappingBookingsExcluding(
-            @Param("tenantId") UUID tenantId,
-            @Param("staffId") UUID staffId,
-            @Param("startTime") LocalDateTime startTime,
-            @Param("endTime") LocalDateTime endTime,
-            @Param("excludeBookingId") UUID excludeBookingId);
+        @Query("SELECT b FROM Booking b WHERE b.tenantId = :tenantId " +
+                        "AND b.staffId = :staffId " +
+                        "AND b.id <> :excludeBookingId " +
+                        "AND b.status IN ('PENDING', 'CONFIRMED') " +
+                        "AND ((b.startTime < :endTime AND b.endTime > :startTime))")
+        List<Booking> findOverlappingBookingsExcluding(
+                        @Param("tenantId") UUID tenantId,
+                        @Param("staffId") UUID staffId,
+                        @Param("startTime") LocalDateTime startTime,
+                        @Param("endTime") LocalDateTime endTime,
+                        @Param("excludeBookingId") UUID excludeBookingId);
+
+        // Upcoming bookings
+        List<Booking> findByTenantIdAndStartTimeAfterOrderByStartTimeAsc(UUID tenantId, LocalDateTime afterTime);
+
+        // Past bookings
+        List<Booking> findByTenantIdAndStartTimeBetweenOrderByStartTimeDesc(
+                        UUID tenantId, LocalDateTime startTime, LocalDateTime endTime);
 }
