@@ -78,7 +78,7 @@ class AppointmentServiceTest {
                 // Then
                 // 9:00-10:00, 10:00-11:00, 11:00-12:00 -> 3 slots
                 assertEquals(3, slots.size());
-                assertEquals(LocalTime.of(9, 0), slots.get(0).getStartTime());
+                assertEquals(LocalDateTime.of(date, LocalTime.of(9, 0)), slots.get(0).getStartTime());
         }
 
         @Test
@@ -107,9 +107,9 @@ class AppointmentServiceTest {
                 assertEquals(2, slots.size());
 
                 // Slot 1: 9:00
-                assertEquals(LocalTime.of(9, 0), slots.get(0).getStartTime());
+                assertEquals(LocalDateTime.of(date, LocalTime.of(9, 0)), slots.get(0).getStartTime());
 
                 // Slot 2: 11:00 (Skipped 10:00)
-                assertEquals(LocalTime.of(11, 0), slots.get(1).getStartTime());
+                assertEquals(LocalDateTime.of(date, LocalTime.of(11, 0)), slots.get(1).getStartTime());
         }
 }
