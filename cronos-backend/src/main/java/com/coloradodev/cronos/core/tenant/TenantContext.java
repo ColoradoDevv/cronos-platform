@@ -20,4 +20,18 @@ public class TenantContext {
         log.debug("Clearing current tenant");
         CURRENT_TENANT.remove();
     }
+
+    /**
+     * Get the current tenant ID as a UUID.
+     * 
+     * @return The current tenant's UUID
+     * @throws IllegalStateException if no tenant context is set
+     */
+    public static java.util.UUID getCurrentTenantId() {
+        String tenantId = getCurrentTenant();
+        if (tenantId == null) {
+            throw new IllegalStateException("No tenant context available");
+        }
+        return java.util.UUID.fromString(tenantId);
+    }
 }
