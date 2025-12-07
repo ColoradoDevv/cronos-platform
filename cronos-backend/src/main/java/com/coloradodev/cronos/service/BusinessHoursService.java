@@ -124,6 +124,14 @@ public class BusinessHoursService {
     }
 
     /**
+     * Check if a single time falls within business hours.
+     */
+    @Transactional(readOnly = true)
+    public boolean isWithinBusinessHours(UUID tenantId, LocalDateTime dateTime) {
+        return isBusinessOpen(tenantId, dateTime);
+    }
+
+    /**
      * Find the next available business date starting from a given date.
      */
     @Transactional(readOnly = true)
