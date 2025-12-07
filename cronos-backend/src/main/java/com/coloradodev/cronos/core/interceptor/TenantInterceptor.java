@@ -1,4 +1,3 @@
-
 package com.coloradodev.cronos.core.interceptor;
 
 import com.coloradodev.cronos.core.tenant.TenantContext;
@@ -9,11 +8,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -29,7 +30,7 @@ public class TenantInterceptor implements HandlerInterceptor {
             throws Exception {
         String tenantId = request.getHeader(TENANT_HEADER);
 
-        if (tenantId == null || tenantId.isEmpty()) {
+        if (tenantId == null || tenantId.isBlank()) {
             log.warn("Missing X-Tenant-ID header");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("Missing X-Tenant-ID header");
@@ -40,18 +41,18 @@ public class TenantInterceptor implements HandlerInterceptor {
         // In a real scenario, we might want to cache this lookup
         try {
             // Check if it's a UUID
-            java.util.UUID uuid = java.util.UUID.fromString(tenantId);
+            UUID uuid = java.util.Objects.requireNonNull(UUID.fromString(tenantId));
             Optional<Tenant> tenant = tenantRepository.findById(uuid);
 
-            if (tenant.isEmpty()) {
+            if (tenant.isPresent()) {
+                TenantContext.setCurrentTenant(uuid.toString());
+                return true;
+            } else {
                 log.warn("Tenant not found: {}", tenantId);
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("Invalid Tenant ID");
                 return false;
             }
-
-            TenantContext.setCurrentTenant(tenantId);
-            return true;
         } catch (IllegalArgumentException e) {
             log.warn("Invalid UUID format for tenant: {}", tenantId);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -63,13 +64,13 @@ public class TenantInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
             @NonNull Object handler,
-            ModelAndView modelAndView) throws Exception {
+            @Nullable ModelAndView modelAndView) throws Exception {
         TenantContext.clear();
     }
 
     @Override
     public void afterCompletion(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
-            @NonNull Object handler, Exception ex)
+            @NonNull Object handler, @Nullable Exception ex)
             throws Exception {
         TenantContext.clear();
     }
