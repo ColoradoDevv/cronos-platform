@@ -41,7 +41,7 @@ public class PaymentService {
         payment.setTenantId(tenantId);
         payment.setBookingId(bookingId);
         payment.setAmount(amount);
-        payment.setPaymentMethod(method);
+        payment.setMethod(Payment.PaymentMethod.valueOf(method.toUpperCase()));
         payment.setStatus(PaymentStatus.PENDING);
 
         Payment saved = paymentRepository.save(payment);

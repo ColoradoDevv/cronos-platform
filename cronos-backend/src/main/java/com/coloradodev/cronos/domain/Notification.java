@@ -20,16 +20,21 @@ public class Notification {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @Column(name = "tenant_id", nullable = false)
+    private UUID tenantId;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "recipient_type", nullable = false)
+    @Column(name = "recipient_type")
     private RecipientType recipientType;
 
     @Column(name = "recipient_id", nullable = false)
     private UUID recipientId;
 
-    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
+    private String type;
+
     @Column(name = "channel", nullable = false)
-    private NotificationChannel channel;
+    private String channel;
 
     @Column(name = "template_id")
     private String templateId;
@@ -37,8 +42,8 @@ public class Notification {
     @Column(name = "subject")
     private String subject;
 
-    @Column(name = "body", columnDefinition = "TEXT", nullable = false)
-    private String body;
+    @Column(name = "content", columnDefinition = "TEXT", nullable = false)
+    private String content;
 
     @Column(name = "sent_at")
     private LocalDateTime sentAt;
