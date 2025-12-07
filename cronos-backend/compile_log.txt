@@ -1,14 +1,29 @@
-﻿mvn : WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+﻿mvn : WARNING: A terminally deprecated 
+method in sun.misc.Unsafe has been 
+called
 En línea: 1 Carácter: 1
-+ mvn compile 2>&1 | Out-File -FilePath compile_log.txt -Encoding utf8
++ mvn compile 2>&1 | Out-File -FilePath 
+compile_log.txt -Encoding utf8
 + ~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecifie    d: (WARNING: A term...has been called    :String) [], RemoteException
-    + FullyQualifiedErrorId : NativeComma    ndError
+    + CategoryInfo          : NotSpecif 
+   ied: (WARNING: A term...has been ca  
+  lled:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCom 
+   mandError
  
-WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner 
-(file:/C:/Users/jmcol/Downloads/apache-maven-3.9.11-bin/apache-maven-3.9.11/lib/guice-5.1.0-classes.jar)
-WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
-WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
+WARNING: 
+sun.misc.Unsafe::staticFieldBase has 
+been called by com.google.inject.interna
+l.aop.HiddenClassDefiner (file:/C:/Users
+/jmcol/Downloads/apache-maven-3.9.11-bin
+/apache-maven-3.9.11/lib/guice-5.1.0-cla
+sses.jar)
+WARNING: Please consider reporting this 
+to the maintainers of class com.google.i
+nject.internal.aop.HiddenClassDefiner
+WARNING: 
+sun.misc.Unsafe::staticFieldBase will 
+be removed in a future release
 [INFO] Scanning for projects...
 [INFO] 
 [INFO] -------------------< com.coloradodev:cronos-backend >-------------------
@@ -25,6 +40,6 @@ WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  1.319 s
-[INFO] Finished at: 2025-12-07T00:53:05-05:00
+[INFO] Total time:  1.409 s
+[INFO] Finished at: 2025-12-07T00:57:25-05:00
 [INFO] ------------------------------------------------------------------------
