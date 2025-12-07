@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancelación de Reserva</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f5;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .content {
+            padding: 30px 25px;
+        }
+
+        .cancel-icon {
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .info-box h3 {
+            margin-top: 0;
+            color: #991b1b;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #6b7280;
+            background: #f9fafb;
+        }
+
+        .note {
+            font-size: 14px;
+            color: #6b7280;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 th:text="${tenantName ?: 'Cronos Platform'}">Cronos</h1>
+        </div>
+        <div class="content">
+            <div class="cancel-icon">❌</div>
+            <h2 style="text-align: center; color: #dc2626;">Tu reserva ha sido cancelada</h2>
+
+            <p>Hola <strong th:text="${clientName}">Cliente</strong>,</p>
+
+            <p>Lamentamos informarte que tu reserva ha sido cancelada.</p>
+
+            <div class="info-box">
+                <h3>📅 Detalles de la reserva cancelada</h3>
+                <p><strong>Servicio:</strong> <span th:text="${serviceName}">Servicio</span></p>
+                <p><strong>Fecha:</strong> <span th:text="${date}">01/01/2025</span></p>
+                <p><strong>Hora:</strong> <span th:text="${time}">10:00</span></p>
+                <p th:if="${cancellationReason}"><strong>Motivo:</strong> <span
+                        th:text="${cancellationReason}">Razón</span></p>
+            </div>
+
+            <p class="note">
+                Si deseas realizar una nueva reserva, visita nuestro sitio web o contáctanos directamente.
+                ¡Esperamos verte pronto!
+            </p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 <span th:text="${tenantName ?: 'Cronos'}">Cronos</span>. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</body>
+
+</html>
