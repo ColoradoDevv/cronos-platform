@@ -18,6 +18,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,10 @@ import java.util.UUID;
 
 /**
  * REST Controller for managing services (business offerings).
+ * 
+ * Authorization:
+ * - Read operations: Any authenticated user
+ * - Create/Update/Delete: ADMIN role required
  */
 @RestController
 @RequestMapping("/api/services")
@@ -43,6 +48,7 @@ public class ServiceController {
      * Create a new service.
      */
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ServiceResponseDTO> createService(
             @Valid @RequestBody ServiceRequestDTO request) {
         UUID tenantId = TenantContext.getCurrentTenantId();
@@ -83,6 +89,7 @@ public class ServiceController {
      * Update a service.
      */
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ServiceResponseDTO> updateService(
             @PathVariable UUID id,
             @Valid @RequestBody ServiceRequestDTO request) {
@@ -96,6 +103,7 @@ public class ServiceController {
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteService(@PathVariable UUID id) {
         UUID tenantId = TenantContext.getCurrentTenantId();
         serviceManagementService.deleteService(tenantId, id);
@@ -107,6 +115,7 @@ public class ServiceController {
      * Activate a service.
      */
     @PatchMapping("/{id}/activate")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ServiceResponseDTO> activateService(@PathVariable UUID id) {
         UUID tenantId = TenantContext.getCurrentTenantId();
         Service service = serviceManagementService.activateService(tenantId, id);
@@ -117,6 +126,7 @@ public class ServiceController {
      * Deactivate a service.
      */
     @PatchMapping("/{id}/deactivate")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ServiceResponseDTO> deactivateService(@PathVariable UUID id) {
         UUID tenantId = TenantContext.getCurrentTenantId();
         Service service = serviceManagementService.deactivateService(tenantId, id);
@@ -130,6 +140,7 @@ public class ServiceController {
      */
     @PostMapping("/{id}/staff/{staffId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ADMIN')")
     public void assignStaffToService(
             @PathVariable UUID id,
             @PathVariable UUID staffId) {
@@ -142,6 +153,7 @@ public class ServiceController {
      */
     @DeleteMapping("/{id}/staff/{staffId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ADMIN')")
     public void removeStaffFromService(
             @PathVariable UUID id,
             @PathVariable UUID staffId) {
@@ -181,6 +193,7 @@ public class ServiceController {
      * Create a new service category.
      */
     @PostMapping("/categories")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ServiceCategoryResponseDTO> createCategory(
             @Valid @RequestBody ServiceCategoryRequestDTO request) {
         UUID tenantId = TenantContext.getCurrentTenantId();
