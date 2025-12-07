@@ -27,4 +27,8 @@ public interface PaymentRepository extends JpaRepository<Payment, UUID> {
             UUID tenantId,
             LocalDateTime startDate,
             LocalDateTime endDate);
+
+    Optional<Payment> findByBookingId(UUID bookingId);
+
+    List<Payment> findAllByBookingId(UUID bookingId);
 }

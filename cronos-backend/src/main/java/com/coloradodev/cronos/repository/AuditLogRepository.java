@@ -29,4 +29,14 @@ public interface AuditLogRepository extends JpaRepository<AuditLog, UUID> {
             @Param("tenantId") UUID tenantId,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
+
+    @Query("SELECT a FROM AuditLog a WHERE a.tenantId = :tenantId " +
+            "AND a.action = :action " +
+            "AND a.timestamp >= :startDate AND a.timestamp <= :endDate " +
+            "ORDER BY a.timestamp DESC")
+    List<AuditLog> findByTenantIdAndActionAndTimestampBetween(
+            @Param("tenantId") UUID tenantId,
+            @Param("action") String action,
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate);
 }

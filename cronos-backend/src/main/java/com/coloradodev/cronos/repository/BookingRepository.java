@@ -44,4 +44,30 @@ public interface BookingRepository extends JpaRepository<Booking, UUID> {
             @Param("staffId") UUID staffId,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
+
+    List<Booking> findByClientIdOrderByCreatedAtDesc(UUID clientId);
+
+    List<Booking> findByTenantIdAndClientIdOrderByCreatedAtDesc(UUID tenantId, UUID clientId);
+
+    @Query("SELECT b FROM Booking b WHERE b.tenantId = :tenantId " +
+            "AND b.staffId = :staffId " +
+            "AND b.status IN ('PENDING', 'CONFIRMED') " +
+            "AND ((b.startTime < :endTime AND b.endTime > :startTime))")
+    List<Booking> findOverlappingBookings(
+            @Param("tenantId") UUID tenantId,
+            @Param("staffId") UUID staffId,
+            @Param("startTime") LocalDateTime startTime,
+            @Param("endTime") LocalDateTime endTime);
+
+    @Query("SELECT b FROM Booking b WHERE b.tenantId = :tenantId " +
+            "AND b.staffId = :staffId " +
+            "AND b.id <> :excludeBookingId " +
+            "AND b.status IN ('PENDING', 'CONFIRMED') " +
+            "AND ((b.startTime < :endTime AND b.endTime > :startTime))")
+    List<Booking> findOverlappingBookingsExcluding(
+            @Param("tenantId") UUID tenantId,
+            @Param("staffId") UUID staffId,
+            @Param("startTime") LocalDateTime startTime,
+            @Param("endTime") LocalDateTime endTime,
+            @Param("excludeBookingId") UUID excludeBookingId);
 }
