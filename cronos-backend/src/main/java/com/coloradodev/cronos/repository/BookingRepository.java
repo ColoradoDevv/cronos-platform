@@ -77,4 +77,11 @@ public interface BookingRepository extends JpaRepository<Booking, UUID> {
         // Past bookings
         List<Booking> findByTenantIdAndStartTimeBetweenOrderByStartTimeDesc(
                         UUID tenantId, LocalDateTime startTime, LocalDateTime endTime);
+
+        // For scheduled tasks - find bookings in date range with specific statuses
+        List<Booking> findByStartTimeBetweenAndStatusIn(
+                        LocalDateTime startTime, LocalDateTime endTime, List<BookingStatus> statuses);
+
+        // For cleanup - find old cancelled bookings
+        List<Booking> findByStatusAndStartTimeBefore(BookingStatus status, LocalDateTime cutoffDate);
 }
