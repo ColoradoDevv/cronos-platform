@@ -3,7 +3,7 @@ package com.coloradodev.cronos.service;
 import com.coloradodev.cronos.domain.Subscription;
 import com.coloradodev.cronos.domain.Subscription.SubscriptionPlan;
 import com.coloradodev.cronos.domain.Subscription.SubscriptionStatus;
-import com.coloradodev.cronos.exception.LimitExceededException;
+import com.coloradodev.cronos.exception.SubscriptionLimitExceededException;
 import com.coloradodev.cronos.exception.ResourceNotFoundException;
 import com.coloradodev.cronos.repository.SubscriptionRepository;
 import com.coloradodev.cronos.repository.StaffRepository;
@@ -160,7 +160,7 @@ public class SubscriptionService {
         };
 
         if (currentValue >= maxValue) {
-            throw new LimitExceededException(limitType.name(), currentValue, maxValue);
+            throw new SubscriptionLimitExceededException(limitType.name(), currentValue, maxValue);
         }
     }
 

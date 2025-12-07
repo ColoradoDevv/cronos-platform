@@ -1,20 +1,18 @@
 package com.coloradodev.cronos.exception;
 
-public class BusinessRuleException extends RuntimeException {
+import org.springframework.http.HttpStatus;
 
-    private final String ruleCode;
+/**
+ * Exception thrown when a business rule is violated.
+ * HTTP 400
+ */
+public class BusinessRuleException extends CronosException {
 
     public BusinessRuleException(String message) {
-        super(message);
-        this.ruleCode = "BUSINESS_RULE_VIOLATION";
+        super(message, "BUSINESS_RULE_VIOLATION", HttpStatus.BAD_REQUEST);
     }
 
-    public BusinessRuleException(String ruleCode, String message) {
-        super(message);
-        this.ruleCode = ruleCode;
-    }
-
-    public String getRuleCode() {
-        return ruleCode;
+    public BusinessRuleException(String errorCode, String message) {
+        super(message, errorCode, HttpStatus.BAD_REQUEST);
     }
 }

@@ -8,7 +8,7 @@ import com.coloradodev.cronos.domain.Staff;
 import com.coloradodev.cronos.dto.booking.BookingRequestDTO;
 import com.coloradodev.cronos.exception.BusinessRuleException;
 import com.coloradodev.cronos.exception.ResourceNotFoundException;
-import com.coloradodev.cronos.exception.SlotNotAvailableException;
+import com.coloradodev.cronos.exception.SlotConflictException;
 import com.coloradodev.cronos.repository.AppointmentRepository;
 import com.coloradodev.cronos.repository.BookingRepository;
 import com.coloradodev.cronos.repository.ServiceRepository;
@@ -62,7 +62,7 @@ public class BookingService {
         // Validate time slot is available
         if (!calendarService.checkSlotAvailability(tenantId, request.getServiceId(), request.getStartTime(),
                 request.getStaffId())) {
-            throw new SlotNotAvailableException("The requested time slot is no longer available");
+            throw new SlotConflictException("The requested time slot is no longer available");
         }
 
         // Find or create client
@@ -205,7 +205,7 @@ public class BookingService {
                 tenantId, booking.getStaffId(), newStartTime, newEndTime, bookingId);
 
         if (!conflicts.isEmpty()) {
-            throw new SlotNotAvailableException("The new time slot is not available");
+            throw new SlotConflictException("The new time slot is not available");
         }
 
         LocalDateTime oldStartTime = booking.getStartTime();
