@@ -66,6 +66,17 @@ BEGIN
     END IF;
 END $$;
 
+-- Add is_active column if services already exists without it
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name = 'services' AND column_name = 'is_active'
+    ) THEN
+        ALTER TABLE services ADD COLUMN is_active BOOLEAN DEFAULT true;
+    END IF;
+END $$;
+
 CREATE INDEX IF NOT EXISTS idx_services_tenant_id ON services(tenant_id);
 CREATE INDEX IF NOT EXISTS idx_services_category_id ON services(category_id);
 CREATE INDEX IF NOT EXISTS idx_services_tenant_active ON services(tenant_id, is_active);
