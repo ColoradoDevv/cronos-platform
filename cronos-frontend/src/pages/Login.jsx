@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import authService from '../api/authService';
-import { LogIn, ArrowRight, CheckCircle } from 'lucide-react';
+import ThemeSwitch from '../components/ThemeSwitch';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -26,149 +26,149 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen flex bg-white">
-            {/* Left Side - Form */}
-            <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:w-1/2 xl:w-5/12">
-                <div className="mx-auto w-full max-w-sm lg:w-96">
-                    <div>
-                        <div className="h-12 w-12 bg-gradient-to-br from-primary to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
-                            <LogIn className="h-7 w-7 text-white" />
-                        </div>
-                        <h2 className="mt-8 text-3xl font-extrabold text-gray-900 tracking-tight">
-                            Welcome back
-                        </h2>
-                        <p className="mt-2 text-sm text-gray-600">
-                            Please enter your details to sign in.
-                        </p>
-                    </div>
+        <div className="min-h-screen flex flex-col items-center justify-center bg-bg text-text p-4 selection:bg-accent-blue selection:text-white relative">
 
-                    <div className="mt-8">
-                        <form action="#" method="POST" className="space-y-6" onSubmit={handleSubmit}>
-                            {error && (
-                                <div className="rounded-md bg-red-50 p-4 border border-red-100">
-                                    <div className="flex">
-                                        <div className="flex-shrink-0">
-                                            <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                                            </svg>
-                                        </div>
-                                        <div className="ml-3">
-                                            <h3 className="text-sm font-medium text-red-800">{error}</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
-                            <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                    Email address
-                                </label>
-                                <div className="mt-1">
-                                    <input
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        autoComplete="email"
-                                        required
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out sm:text-sm"
-                                        placeholder="you@example.com"
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <div className="flex items-center justify-between">
-                                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                                        Password
-                                    </label>
-                                    <div className="text-sm">
-                                        <a href="#" className="font-medium text-primary hover:text-blue-500 transition duration-150 ease-in-out">
-                                            Forgot your password?
-                                        </a>
-                                    </div>
-                                </div>
-                                <div className="mt-1">
-                                    <input
-                                        id="password"
-                                        name="password"
-                                        type="password"
-                                        autoComplete="current-password"
-                                        required
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out sm:text-sm"
-                                        placeholder="••••••••"
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-medium text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition duration-150 ease-in-out transform hover:-translate-y-0.5 ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
-                                >
-                                    {loading ? 'Signing in...' : 'Sign in'}
-                                </button>
-                            </div>
-                        </form>
-
-                        <div className="mt-6">
-                            <div className="relative">
-                                <div className="absolute inset-0 flex items-center">
-                                    <div className="w-full border-t border-gray-300" />
-                                </div>
-                                <div className="relative flex justify-center text-sm">
-                                    <span className="px-2 bg-white text-gray-500">
-                                        Don't have an account?
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className="mt-6">
-                                <Link
-                                    to="/register"
-                                    className="w-full flex justify-center py-3 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition duration-150 ease-in-out"
-                                >
-                                    Create an account
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            {/* Minimalist Top Nav */}
+            <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-center w-full max-w-6xl mx-auto">
+                <Link to="/" className="flex items-center gap-2 group">
+                    <div className="w-5 h-5 bg-text text-bg rounded flex items-center justify-center font-bold text-xs group-hover:scale-105 transition-transform">C</div>
+                    <span className="font-semibold text-sm tracking-tight text-text">Cronos</span>
+                </Link>
+                <ThemeSwitch />
             </div>
 
-            {/* Right Side - Hero/Branding */}
-            <div className="hidden lg:block relative w-0 flex-1 bg-gray-50">
-                <div className="absolute inset-0 h-full w-full bg-gradient-to-br from-gray-900 to-secondary opacity-90" />
-                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')] bg-cover bg-center mix-blend-overlay" />
+            {/* Central Notion-Style Card */}
+            <div className="w-full max-w-sm">
+                <div className="text-center mb-8">
+                    <div className="text-4xl mb-4 text-text hover:animate-spin cursor-default inline-block">
+                        <i className="fa-solid fa-hourglass-half"></i>
+                    </div>
+                    <h2 className="text-2xl font-bold tracking-tight text-text mb-2">
+                        Welcome back
+                    </h2>
+                    <p className="text-sm text-text-secondary">
+                        Enter your details to access your workspace.
+                    </p>
+                </div>
 
-                <div className="absolute inset-0 flex flex-col justify-center px-12 text-white">
-                    <div className="max-w-lg">
-                        <h2 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
-                            Manage your business with confidence.
-                        </h2>
-                        <p className="text-lg text-gray-200 mb-8">
-                            Cronos Platform provides the tools you need to streamline your operations, manage appointments, and grow your business efficiently.
-                        </p>
-                        <div className="space-y-4">
-                            <div className="flex items-center space-x-3">
-                                <CheckCircle className="h-6 w-6 text-accent" />
-                                <span className="text-lg">Smart Scheduling</span>
+                <div className="notion-card bg-bg border border-border p-8 rounded-lg">
+                    <form className="space-y-5" onSubmit={handleSubmit}>
+                        {error && (
+                            <div className="p-3 bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30 rounded text-sm text-red-600 dark:text-red-400 flex items-center gap-2">
+                                <i className="fa-solid fa-circle-exclamation"></i>
+                                {error}
                             </div>
-                            <div className="flex items-center space-x-3">
-                                <CheckCircle className="h-6 w-6 text-accent" />
-                                <span className="text-lg">Client Management</span>
+                        )}
+
+                        <div className="space-y-1.5">
+                            <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wider text-text-secondary">
+                                Email
+                            </label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-text-muted">
+                                    <i className="fa-regular fa-envelope"></i>
+                                </div>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    autoComplete="email"
+                                    required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="block w-full pl-10 pr-3 py-2.5 bg-bg border border-border rounded text-sm text-text placeholder-text-muted focus:outline-none focus:border-text focus:ring-1 focus:ring-text transition-all"
+                                    placeholder="name@company.com"
+                                />
                             </div>
-                            <div className="flex items-center space-x-3">
-                                <CheckCircle className="h-6 w-6 text-accent" />
-                                <span className="text-lg">Real-time Analytics</span>
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wider text-text-secondary">
+                                Password
+                            </label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-text-muted">
+                                    <i className="fa-solid fa-lock"></i>
+                                </div>
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    autoComplete="current-password"
+                                    required
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="block w-full pl-10 pr-3 py-2.5 bg-bg border border-border rounded text-sm text-text placeholder-text-muted focus:outline-none focus:border-text focus:ring-1 focus:ring-text transition-all"
+                                    placeholder="••••••••"
+                                />
                             </div>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center">
+                                <input
+                                    id="remember-me"
+                                    name="remember-me"
+                                    type="checkbox"
+                                    className="h-4 w-4 text-text border-border rounded bg-bg focus:ring-text"
+                                />
+                                <label htmlFor="remember-me" className="ml-2 block text-xs text-text-secondary">
+                                    Remember me
+                                </label>
+                            </div>
+
+                            <div className="text-xs">
+                                <a href="#" className="font-medium text-text-secondary hover:text-text hover:underline underline-offset-2">
+                                    Forgot password?
+                                </a>
+                            </div>
+                        </div>
+
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 border border-transparent rounded text-sm font-medium bg-text text-bg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-text transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {loading ? (
+                                <i className="fa-solid fa-circle-notch fa-spin"></i>
+                            ) : (
+                                <>
+                                    Sign in
+                                    <i className="fa-solid fa-arrow-right text-xs mt-0.5 opacity-70"></i>
+                                </>
+                            )}
+                        </button>
+                    </form>
+
+                    <div className="mt-6">
+                        <div className="relative">
+                            <div className="absolute inset-0 flex items-center">
+                                <div className="w-full border-t border-border"></div>
+                            </div>
+                            <div className="relative flex justify-center text-xs">
+                                <span className="px-2 bg-bg text-text-muted">
+                                    Or continue with
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="mt-6 grid grid-cols-2 gap-3">
+                            <button className="w-full inline-flex justify-center py-2 px-4 border border-border rounded bg-bg text-sm font-medium text-text-secondary hover:bg-bg-hover hover:text-text transition-colors">
+                                <i className="fa-brands fa-google text-base"></i>
+                            </button>
+                            <button className="w-full inline-flex justify-center py-2 px-4 border border-border rounded bg-bg text-sm font-medium text-text-secondary hover:bg-bg-hover hover:text-text transition-colors">
+                                <i className="fa-brands fa-github text-base"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
+
+                <p className="mt-8 text-center text-xs text-text-muted">
+                    Don't have an account?{' '}
+                    <Link to="/register" className="font-medium text-text hover:underline underline-offset-2">
+                        Create a workspace
+                    </Link>
+                </p>
             </div>
         </div>
     );

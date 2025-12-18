@@ -3,38 +3,239 @@
 @tailwind utilities;
 
 :root {
-  --primary-color: #2563eb;
-  /* Default Blue */
-  --secondary-color: #1e293b;
-  /* Slate 800 */
-  --accent-color: #f59e0b;
-  /* Amber 500 */
+  /* Notion Color Palette (OKLCH approximations) */
 
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* Neutral */
+  --color-white: oklch(100% 0 0);
+  --color-bg: oklch(100% 0 0);
+  /* Pure White */
+  --color-bg-hover: oklch(97% 0 0);
+  /* Hover block color */
+
+  --color-text: oklch(32% 0 0);
+  /* Notion Default Text (#37352F) */
+  --color-text-secondary: oklch(55% 0 0);
+  /* Muted Text */
+  --color-text-muted: oklch(70% 0 0);
+  /* Placeholder/Disabled */
+
+  --color-border: oklch(92% 0 0);
+  /* Subtle borders */
+  --color-border-light: oklch(96% 0 0);
+
+  /* Notion Accents (Pastel & Functional) */
+  --color-primary: oklch(55% 0 0);
+  --color-primary-hover: oklch(45% 0 0);
+
+  /* Text Highlights */
+  --color-accent-blue: oklch(45% 0.15 260);
+  /* Functional Blue */
+
+  /* Background Highlights (Notion block colors) */
+  --bg-gray: oklch(97% 0 0);
+  --bg-brown: oklch(96% 0.015 60);
+  --bg-orange: oklch(96% 0.02 50);
+  --bg-yellow: oklch(97% 0.03 95);
+  --bg-green: oklch(97% 0.03 140);
+  --bg-blue: oklch(97% 0.02 240);
+  --bg-purple: oklch(96% 0.02 300);
+  --bg-pink: oklch(96% 0.02 350);
+  --bg-red: oklch(96% 0.02 20);
+
+  /* Shadows - Minimalist */
+  --shadow-sm: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 2px 4px;
+  --shadow-hover: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.2) 0px 4px 16px;
+
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+[data-theme="dark"] {
+  --color-white: oklch(18% 0 0);
+  --color-bg: oklch(16% 0 0);
+  /* Notion Dark (#191919) */
+  --color-bg-hover: oklch(21% 0 0);
+
+  --color-text: oklch(90% 0 0);
+  /* Off-white text */
+  --color-text-secondary: oklch(65% 0 0);
+  --color-text-muted: oklch(45% 0 0);
+
+  --color-border: oklch(25% 0 0);
+  --color-border-light: oklch(20% 0 0);
+
+  --color-primary: oklch(90% 0 0);
+  --color-primary-hover: oklch(100% 0 0);
+
+  /* Functional Blue for Dark Mode */
+  --color-accent-blue: oklch(70% 0.12 260);
+
+  /* Background Highlights (Dark) */
+  --bg-gray: oklch(25% 0 0);
+  --bg-brown: oklch(25% 0.02 50);
+  --bg-orange: oklch(25% 0.03 40);
+  --bg-yellow: oklch(25% 0.03 90);
+  --bg-green: oklch(25% 0.03 140);
+  --bg-blue: oklch(25% 0.03 240);
+  --bg-purple: oklch(25% 0.03 290);
+  --bg-pink: oklch(25% 0.03 340);
+  --bg-red: oklch(25% 0.03 20);
+
+  --shadow-sm: rgba(255, 255, 255, 0.1) 0px 0px 0px 1px;
+  --shadow-hover: rgba(255, 255, 255, 0.15) 0px 0px 0px 1px, rgba(0, 0, 0, 0.4) 0px 4px 16px;
 }
 
 body {
   margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Custom Scrollbar */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
+/* Notion Specific Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-text);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.25em;
 }
 
-.custom-scrollbar::-webkit-scrollbar-track {
+h1 {
+  font-size: 2.5rem;
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: 1.875rem;
+  letter-spacing: -0.015em;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+/* Buttons - Notion Style */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  height: 36px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 4px;
+  /* Slightly rounded squares */
+  cursor: pointer;
+  transition: background 0.1s ease;
+
+  background-color: var(--color-primary);
+  color: white;
+  border: 1px solid transparent;
+}
+
+[data-theme="dark"] .btn-primary {
+  color: oklch(16% 0 0);
+  /* Dark text on blue btn in dark mode */
+}
+
+.btn-primary:hover {
+  filter: brightness(0.9);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  height: 36px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 4px;
+  cursor: pointer;
+
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-bg-hover);
+  color: var(--color-text);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 8px;
+  font-size: 14px;
+  color: var(--color-text-secondary);
   background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #cbd5e1;
-  /* slate-300 */
-  border-radius: 20px;
+.btn-ghost:hover {
+  background-color: var(--color-bg-hover);
+  color: var(--color-text);
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: #94a3b8;
-  /* slate-400 */
+/* Notion "Callout" Style Cards */
+.notion-card {
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  /* Notion uses small border radius */
+  padding: 24px;
+  background: var(--color-bg);
+  transition: all 0.2s ease;
+}
+
+.notion-card:hover {
+  background: var(--color-bg-hover);
+}
+
+.notion-card-icon {
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+/* Utilities */
+.text-balance {
+  text-wrap: balance;
+}
+
+.wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Notion max-width */
+
+/* Notion Navbar */
+.nav-link {
+  color: var(--color-text);
+  font-size: 14px;
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.nav-link:hover {
+  background-color: var(--color-bg-hover);
+}
+
+/* Selection Highlight */
+::selection {
+  background: oklch(85% 0.1 260);
+  /* Light blue selection */
+}
+
+[data-theme="dark"] ::selection {
+  background: oklch(40% 0.1 260);
 }

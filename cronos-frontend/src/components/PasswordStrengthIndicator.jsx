@@ -55,7 +55,7 @@ const PasswordStrengthIndicator = ({ password }) => {
             </div>
 
             {/* Requirements Checklist */}
-            <div className="space-y-1">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1">
                 {requirements.map((req, index) => {
                     const isMet = req.test(password);
                     return (
