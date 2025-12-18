@@ -100,6 +100,28 @@ CREATE TABLE IF NOT EXISTS appointments (
     CONSTRAINT chk_appointments_times CHECK (end_time > start_time)
 );
 
+-- Add staff_id column if appointments already exists without it
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name = 'appointments' AND column_name = 'staff_id'
+    ) THEN
+        ALTER TABLE appointments ADD COLUMN staff_id UUID;
+    END IF;
+END $$;
+
+-- Add client_id column if appointments already exists without it
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name = 'appointments' AND column_name = 'client_id'
+    ) THEN
+        ALTER TABLE appointments ADD COLUMN client_id UUID;
+    END IF;
+END $$;
+
 CREATE INDEX IF NOT EXISTS idx_appointments_tenant_id ON appointments(tenant_id);
 CREATE INDEX IF NOT EXISTS idx_appointments_tenant_date ON appointments(tenant_id, start_time);
 CREATE INDEX IF NOT EXISTS idx_appointments_service_id ON appointments(service_id);
